@@ -1,0 +1,199 @@
+# Week 1 Summary
+
+## What Was Done
+- Collected monthly CSV files from 2024-01 through 2026-03 (inclusive) for both listing and sold datasets.
+- Built two separate pipelines (Listed and Sold) to concatenate, clean, standardize, and feature-engineer the data.
+- Resolved duplicated columns created by repeated extracts (for example, `Latitude` and `Latitude.1`).
+- Converted date and numeric fields to consistent types and added Tableau-ready features such as price-per-sqft, ratios, and age.
+- Produced two final, structured outputs for Tableau: `Listed_Final.csv` and `Sold_Final.csv`.
+
+## Output Files
+- `IDX_Exchange/Week1/Listed_Final.csv`
+- `IDX_Exchange/Week1/Sold_Final.csv`
+
+## Row Ordering
+- `Listed_Final.csv` is sorted by `listing_contract_date`(ascending), then `listing_key` (descending).
+- `Sold_Final.csv` is sorted by `close_date`(ascending), then `listing_key` (descending).
+
+## Listed_Final Column Definitions
+- `listing_key`: Unique listing identifier (string key from MLS).
+- `listing_id`: Listing ID (if provided by source).
+- `listing_key_numeric`: Numeric version of listing key.
+- `mls_status`: MLS status at time of record.
+- `listing_contract_date`: Listing contract date (date).
+- `purchase_contract_date`: Purchase contract date (date).
+- `contract_status_change_date`: Contract status change date (date).
+- `close_date`: Close date if applicable (date).
+- `list_price`: Current list price.
+- `original_list_price`: Original list price at time of listing.
+- `close_price`: Close price if sold.
+- `days_on_market`: Days on market.
+- `property_type`: Property type.
+- `property_sub_type`: Property subtype.
+- `business_type`: Business type (if applicable).
+- `living_area`: Living area (sqft).
+- `above_grade_finished_area`: Above-grade finished area (sqft).
+- `below_grade_finished_area`: Below-grade finished area (sqft).
+- `building_area_total`: Total building area (sqft).
+- `bedrooms_total`: Total bedrooms.
+- `bathrooms_total_integer`: Total bathrooms (integer).
+- `year_built`: Year built.
+- `lot_size_square_feet`: Lot size in square feet.
+- `lot_size_acres`: Lot size in acres.
+- `lot_size_area`: Lot size area (as provided).
+- `lot_size_dimensions`: Lot size dimensions.
+- `main_level_bedrooms`: Bedrooms on main level.
+- `stories`: Number of stories.
+- `levels`: Levels description.
+- `garage_spaces`: Garage spaces.
+- `covered_spaces`: Covered parking spaces.
+- `parking_total`: Total parking spaces.
+- `attached_garage_yn`: Attached garage flag from source.
+- `fireplaces_total`: Number of fireplaces.
+- `fireplace_yn`: Fireplace flag from source.
+- `new_construction_yn`: New construction flag from source.
+- `subdivision_name`: Subdivision name.
+- `builder_name`: Builder name.
+- `association_fee`: HOA/association fee.
+- `association_fee_frequency`: HOA/association fee frequency.
+- `tax_annual_amount`: Annual tax amount.
+- `tax_year`: Tax year.
+- `mls_area_major`: MLS area major code.
+- `county_or_parish`: County or parish.
+- `city`: City.
+- `state_or_province`: State or province.
+- `postal_code`: Postal/ZIP code.
+- `unparsed_address`: Raw address string.
+- `latitude`: Latitude.
+- `longitude`: Longitude.
+- `elementary_school`: Elementary school.
+- `elementary_school_district`: Elementary school district.
+- `middle_or_junior_school`: Middle or junior school.
+- `middle_or_junior_school_district`: Middle or junior school district.
+- `high_school`: High school.
+- `high_school_district`: High school district.
+- `list_office_name`: Listing office name.
+- `list_agent_full_name`: Listing agent full name.
+- `list_agent_first_name`: Listing agent first name.
+- `list_agent_last_name`: Listing agent last name.
+- `list_agent_email`: Listing agent email (if provided).
+- `co_list_office_name`: Co-list office name.
+- `co_list_agent_first_name`: Co-list agent first name.
+- `co_list_agent_last_name`: Co-list agent last name.
+- `buyer_office_name`: Buyer office name (if provided).
+- `buyer_office_aor`: Buyer office AOR (if provided).
+- `buyer_agent_mls_id`: Buyer agent MLS ID.
+- `buyer_agent_first_name`: Buyer agent first name.
+- `buyer_agent_last_name`: Buyer agent last name.
+- `co_buyer_agent_first_name`: Co-buyer agent first name.
+- `buyer_agency_compensation`: Buyer agency compensation (if provided).
+- `buyer_agency_compensation_type`: Buyer agency compensation type (if provided).
+- `source_month`: Source file month in `YYYYMM` format.
+- `listing_year`: Listing contract year (derived).
+- `listing_month`: Listing contract month (derived).
+- `listing_year_month`: Listing contract year-month in `YYYY-MM` format (derived).
+- `list_price_per_sqft`: List price divided by living area (derived).
+- `close_price_per_sqft`: Close price divided by living area (derived).
+- `list_to_original_ratio`: List price divided by original list price (derived).
+- `close_to_list_ratio`: Close price divided by list price (derived).
+- `property_age`: Listing year minus year built (derived).
+- `has_garage`: 1 if garage is present, else 0 (derived).
+- `has_fireplace`: 1 if fireplace is present, else 0 (derived).
+- `has_new_construction`: 1 if new construction, else 0 (derived).
+
+## Sold_Final Column Definitions
+- `listing_key`: Unique listing identifier (string key from MLS).
+- `listing_id`: Listing ID (if provided by source).
+- `listing_key_numeric`: Numeric version of listing key.
+- `mls_status`: MLS status at time of record.
+- `close_date`: Close date (date).
+- `listing_contract_date`: Listing contract date (date).
+- `purchase_contract_date`: Purchase contract date (date).
+- `contract_status_change_date`: Contract status change date (date).
+- `list_price`: List price.
+- `original_list_price`: Original list price at time of listing.
+- `close_price`: Close price.
+- `days_on_market`: Days on market.
+- `property_type`: Property type.
+- `property_sub_type`: Property subtype.
+- `business_type`: Business type (if applicable).
+- `living_area`: Living area (sqft).
+- `above_grade_finished_area`: Above-grade finished area (sqft).
+- `below_grade_finished_area`: Below-grade finished area (sqft).
+- `building_area_total`: Total building area (sqft).
+- `bedrooms_total`: Total bedrooms.
+- `bathrooms_total_integer`: Total bathrooms (integer).
+- `year_built`: Year built.
+- `lot_size_square_feet`: Lot size in square feet.
+- `lot_size_acres`: Lot size in acres.
+- `lot_size_area`: Lot size area (as provided).
+- `lot_size_dimensions`: Lot size dimensions.
+- `main_level_bedrooms`: Bedrooms on main level.
+- `stories`: Number of stories.
+- `levels`: Levels description.
+- `garage_spaces`: Garage spaces.
+- `covered_spaces`: Covered parking spaces.
+- `parking_total`: Total parking spaces.
+- `attached_garage_yn`: Attached garage flag from source.
+- `fireplaces_total`: Number of fireplaces.
+- `fireplace_yn`: Fireplace flag from source.
+- `new_construction_yn`: New construction flag from source.
+- `subdivision_name`: Subdivision name.
+- `builder_name`: Builder name.
+- `association_fee`: HOA/association fee.
+- `association_fee_frequency`: HOA/association fee frequency.
+- `tax_annual_amount`: Annual tax amount.
+- `tax_year`: Tax year.
+- `mls_area_major`: MLS area major code.
+- `county_or_parish`: County or parish.
+- `city`: City.
+- `state_or_province`: State or province.
+- `postal_code`: Postal/ZIP code.
+- `unparsed_address`: Raw address string.
+- `latitude`: Latitude.
+- `longitude`: Longitude.
+- `elementary_school`: Elementary school.
+- `elementary_school_district`: Elementary school district.
+- `middle_or_junior_school`: Middle or junior school.
+- `middle_or_junior_school_district`: Middle or junior school district.
+- `high_school`: High school.
+- `high_school_district`: High school district.
+- `list_office_name`: Listing office name.
+- `list_agent_full_name`: Listing agent full name.
+- `list_agent_first_name`: Listing agent first name.
+- `list_agent_last_name`: Listing agent last name.
+- `list_agent_email`: Listing agent email (if provided).
+- `list_agent_aor`: Listing agent AOR.
+- `buyer_agent_mls_id`: Buyer agent MLS ID.
+- `buyer_agent_first_name`: Buyer agent first name.
+- `buyer_agent_last_name`: Buyer agent last name.
+- `buyer_agent_aor`: Buyer agent AOR.
+- `buyer_office_name`: Buyer office name.
+- `buyer_office_aor`: Buyer office AOR.
+- `co_list_office_name`: Co-list office name.
+- `co_list_agent_first_name`: Co-list agent first name.
+- `co_list_agent_last_name`: Co-list agent last name.
+- `co_buyer_agent_first_name`: Co-buyer agent first name.
+- `flooring`: Flooring description.
+- `view_yn`: View flag from source.
+- `waterfront_yn`: Waterfront flag from source.
+- `basement_yn`: Basement flag from source.
+- `pool_private_yn`: Private pool flag from source.
+- `originating_system_name`: Originating system name.
+- `originating_system_sub_name`: Originating system sub-name.
+- `source_month`: Source file month in `YYYYMM` format.
+- `close_year`: Close year (derived).
+- `close_month`: Close month (derived).
+- `close_year_month`: Close year-month in `YYYY-MM` format (derived).
+- `list_price_per_sqft`: List price divided by living area (derived).
+- `close_price_per_sqft`: Close price divided by living area (derived).
+- `close_to_list_ratio`: Close price divided by list price (derived).
+- `close_minus_list`: Close price minus list price (derived).
+- `property_age`: Close year minus year built (derived).
+- `has_garage`: 1 if garage is present, else 0 (derived).
+- `has_fireplace`: 1 if fireplace is present, else 0 (derived).
+- `has_pool`: 1 if pool is present, else 0 (derived).
+- `has_view`: 1 if view is present, else 0 (derived).
+- `has_waterfront`: 1 if waterfront is present, else 0 (derived).
+- `has_basement`: 1 if basement is present, else 0 (derived).
+- `has_new_construction`: 1 if new construction, else 0 (derived).
