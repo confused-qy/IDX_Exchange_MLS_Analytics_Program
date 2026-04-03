@@ -122,3 +122,68 @@ Count, mean, median, min, and max for key numeric fields found.
 
 ### Sample Sold-only Columns
 `BasementYN`, `BuyerAgentAOR`, `Flooring`, `ListAgentAOR`, `OriginatingSystemName`, `OriginatingSystemSubName`, `PoolPrivateYN`, `ViewYN`, `WaterfrontYN`
+## Data Counts
+Listed total rows: 853,416
+Sold total rows: 591,246
+
+### Listed Monthly Row Counts
+| File | Rows |
+| --- | --- |
+| CRMLSListing202401.csv | 27,454 |
+| CRMLSListing202402.csv | 27,447 |
+| CRMLSListing202403.csv | 32,282 |
+| CRMLSListing202404.csv | 36,503 |
+| CRMLSListing202405.csv | 38,796 |
+| CRMLSListing202406.csv | 35,894 |
+| CRMLSListing202407.csv | 36,340 |
+| CRMLSListing202408.csv | 35,305 |
+| CRMLSListing202409.csv | 34,625 |
+| CRMLSListing202410.csv | 34,730 |
+| CRMLSListing202411.csv | 25,128 |
+| CRMLSListing202412.csv | 19,417 |
+| CRMLSListing202501.csv | 37,469 |
+| CRMLSListing202502.csv | 33,983 |
+| CRMLSListing202503.csv | 38,492 |
+| CRMLSListing202504.csv | 40,187 |
+| CRMLSListing202505.csv | 40,271 |
+| CRMLSListing202506.csv | 26,399 |
+| CRMLSListing202507.csv | 27,345 |
+| CRMLSListing202508.csv | 25,210 |
+| CRMLSListing202509.csv | 26,923 |
+| CRMLSListing202510.csv | 27,586 |
+| CRMLSListing202511.csv | 20,677 |
+| CRMLSListing202512.csv | 18,773 |
+| CRMLSListing202601.csv | 35,302 |
+| CRMLSListing202602.csv | 31,762 |
+| CRMLSListing202603.csv | 39,116 |
+
+### Sold Monthly Row Counts
+| File | Rows |
+| --- | --- |
+| CRMLSSold202401.csv | 17,976 |
+| CRMLSSold202402.csv | 19,925 |
+| CRMLSSold202403.csv | 23,276 |
+| CRMLSSold202404.csv | 24,640 |
+| CRMLSSold202405.csv | 26,487 |
+| CRMLSSold202406.csv | 24,328 |
+| CRMLSSold202407.csv | 26,240 |
+| CRMLSSold202408.csv | 24,558 |
+| CRMLSSold202409.csv | 21,267 |
+| CRMLSSold202410.csv | 23,274 |
+| CRMLSSold202411.csv | 20,279 |
+| CRMLSSold202412.csv | 20,241 |
+| CRMLSSold202501.csv | 18,738 |
+| CRMLSSold202502.csv | 18,702 |
+| CRMLSSold202503.csv | 21,445 |
+| CRMLSSold202504.csv | 23,262 |
+| CRMLSSold202505.csv | 23,154 |
+| CRMLSSold202506.csv | 22,883 |
+| CRMLSSold202507.csv | 23,646 |
+| CRMLSSold202508.csv | 22,972 |
+| CRMLSSold202509.csv | 22,443 |
+| CRMLSSold202510.csv | 23,233 |
+| CRMLSSold202511.csv | 19,088 |
+| CRMLSSold202512.csv | 20,538 |
+| CRMLSSold202601.csv | 16,487 |
+| CRMLSSold202602.csv | 19,060 |
+| CRMLSSold202603.csv | 23,104 |
