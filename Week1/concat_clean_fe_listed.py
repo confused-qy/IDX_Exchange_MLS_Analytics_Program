@@ -1,11 +1,21 @@
 import re
+from datetime import date
 from pathlib import Path
 from typing import Dict, List
 
 import pandas as pd
 
 START_MONTH = 202401
-END_MONTH = 202603
+
+
+def most_recent_completed_month(today: date | None = None) -> int:
+    current = today or date.today()
+    year = current.year
+    month = current.month - 1
+    if month == 0:
+        year -= 1
+        month = 12
+    return year * 100 + month
 
 
 def month_key_from_name(prefix: str, filename: str) -> int | None:
@@ -44,7 +54,7 @@ def find_monthly_files(prefix: str, root: Path) -> Dict[int, Path]:
             month_key = month_key_from_name(prefix, path.name)
             if not month_key:
                 continue
-            if START_MONTH <= month_key <= END_MONTH and month_key not in files:
+            if START_MONTH <= month_key <= most_recent_completed_month() and month_key not in files:
                 files[month_key] = path
 
     return dict(sorted(files.items()))
@@ -82,17 +92,24 @@ def main() -> None:
     if not files:
         raise SystemExit("No listing CSV files found in the expected directories.")
 
-    missing_months = [m for m in iter_months(START_MONTH, END_MONTH) if m not in files]
+    end_month = most_recent_completed_month()
+    missing_months = [m for m in iter_months(START_MONTH, end_month) if m not in files]
     if missing_months:
         print("Missing listing months:", missing_months)
 
     frames = []
+    pre_concat_rows = 0
     for month_key, path in files.items():
         df = pd.read_csv(path, low_memory=False)
+        pre_concat_rows += len(df)
         df["source_month"] = month_key
         frames.append(df)
 
     df = pd.concat(frames, ignore_index=True)
+    # Row count before concatenation (sum of monthly files).
+    print(f"Listed rows before concat: {pre_concat_rows:,}")
+    # Row count after concatenation.
+    print(f"Listed rows after concat:  {len(df):,}")
 
     duplicate_pairs = [
         ("PropertyType", "PropertyType.1"),
@@ -109,6 +126,15 @@ def main() -> None:
     ]
     for primary, fallback in duplicate_pairs:
         coalesce_columns(df, primary, fallback)
+
+    if "PropertyType" not in df.columns:
+        raise SystemExit("PropertyType column not found; cannot filter Residential rows.")
+    # Row count before Residential filter.
+    pre_filter_rows = len(df)
+    df = df[df["PropertyType"].astype(str).str.strip().str.casefold() == "residential"]
+    # Row count after Residential filter.
+    print(f"Listed rows before Residential filter: {pre_filter_rows:,}")
+    print(f"Listed rows after Residential filter:  {len(df):,}")
 
     date_cols = [
         "CloseDate",
@@ -354,7 +380,7 @@ def main() -> None:
         ascending = [c != "listing_key" for c in sort_cols]
         df = df.sort_values(sort_cols, ascending=ascending)
 
-    output_path = root / "IDX_Exchange" / "Week1" / "Listed_Final.csv"
+    output_path = root / "Listed_Final.csv"
     df.to_csv(output_path, index=False)
 
     print(f"Wrote {output_path}")

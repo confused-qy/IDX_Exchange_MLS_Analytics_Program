@@ -8,8 +8,18 @@
 - Produced two final, structured outputs for Tableau: `Listed_Final.csv` and `Sold_Final.csv`.
 
 ## Output Files
-- `IDX_Exchange/Week1/Listed_Final.csv`
-- `IDX_Exchange/Week1/Sold_Final.csv`
+- `Listed_Final.csv`
+- `Sold_Final.csv`
+
+## Row Counts (Latest Run)
+- Listed rows before concat: 853,411
+- Listed rows after concat: 853,411
+- Listed rows before Residential filter: 853,411
+- Listed rows after Residential filter: 540,417
+- Sold rows before concat: 591,244
+- Sold rows after concat: 591,244
+- Sold rows before Residential filter: 591,244
+- Sold rows after Residential filter: 397,307
 
 ## Row Ordering
 - `Listed_Final.csv` is sorted by `listing_contract_date`(ascending), then `listing_key` (descending).
