@@ -9,7 +9,6 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 LISTED_PATH = ROOT / "Listed_Final.csv"
 SOLD_PATH = ROOT / "Sold_Final.csv"
-OUTPUT_MD = ROOT / "IDX_Exchange" / "Week2" / "missing_value_analysis.md"
 
 
 CORE_LISTED = {
@@ -97,38 +96,60 @@ def missing_summary(df: pd.DataFrame) -> pd.DataFrame:
     return summary
 
 
-def add_actions(summary: pd.DataFrame, core_cols: set[str]) -> pd.DataFrame:
-    def decide(row: pd.Series) -> str:
-        if row["missing_pct"] >= 90 and row["column"] not in core_cols:
-            return "drop (high missing)"
-        return "retain"
+PII_LISTED = {
+    "list_agent_email",
+    "list_agent_first_name",
+    "list_agent_last_name",
+    "list_agent_full_name",
+    "list_office_name",
+    "co_list_agent_first_name",
+    "co_list_agent_last_name",
+    "co_list_office_name",
+    "buyer_agent_first_name",
+    "buyer_agent_last_name",
+    "buyer_agent_mls_id",
+    "buyer_office_name",
+    "buyer_office_aor",
+    "co_buyer_agent_first_name",
+    "buyer_agency_compensation",
+    "buyer_agency_compensation_type",
+}
 
-    summary = summary.copy()
-    summary["flag_gt_90"] = summary["missing_pct"] >= 90
-    summary["proposed_action"] = summary.apply(decide, axis=1)
-    return summary
+PII_SOLD = {
+    "list_agent_email",
+    "list_agent_first_name",
+    "list_agent_last_name",
+    "list_agent_full_name",
+    "list_agent_aor",
+    "list_office_name",
+    "co_list_agent_first_name",
+    "co_list_agent_last_name",
+    "co_list_office_name",
+    "buyer_agent_first_name",
+    "buyer_agent_last_name",
+    "buyer_agent_mls_id",
+    "buyer_agent_aor",
+    "buyer_office_name",
+    "buyer_office_aor",
+    "co_buyer_agent_first_name",
+}
 
 
-def write_section(lines: list[str], title: str, summary: pd.DataFrame) -> None:
-    lines.append(f"## {title}")
-    lines.append("")
-    lines.append("| Column | Missing Count | Missing % | >90% Missing | Proposed Action |")
-    lines.append("| --- | --- | --- | --- | --- |")
-    for _, row in summary.iterrows():
-        lines.append(
-            f"| {row['column']} | {int(row['missing_count']):,} | "
-            f"{row['missing_pct']:.2f}% | {str(row['flag_gt_90'])} | "
-            f"{row['proposed_action']} |"
-        )
-    lines.append("")
-    drops = summary.loc[summary["proposed_action"] == "drop (high missing)", "column"].tolist()
-    lines.append("Proposed drops (high missing, non-core):")
-    if drops:
-        for col in drops:
-            lines.append(f"- {col}")
+def print_section(title: str, summary: pd.DataFrame) -> None:
+    print(f"\n== {title} ==")
+    print("Columns with missing >= 90%:")
+    drops_90 = summary.loc[summary["missing_pct"] >= 90, "column"].tolist()
+    if drops_90:
+        for col in drops_90:
+            print(f"- {col}")
     else:
-        lines.append("- None")
-    lines.append("")
+        print("- None")
+    print("\nMissing summary (sorted by missing % desc):")
+    for _, row in summary.iterrows():
+        print(
+            f"{row['column']}: {int(row['missing_count']):,} "
+            f"missing ({row['missing_pct']:.2f}%)"
+        )
 
 
 def main() -> None:
@@ -138,23 +159,14 @@ def main() -> None:
     listed = normalize_missing(pd.read_csv(LISTED_PATH, low_memory=False))
     sold = normalize_missing(pd.read_csv(SOLD_PATH, low_memory=False))
 
-    listed_summary = add_actions(missing_summary(listed), CORE_LISTED)
-    sold_summary = add_actions(missing_summary(sold), CORE_SOLD)
+    listed_summary = missing_summary(listed)
+    sold_summary = missing_summary(sold)
 
-    lines: list[str] = []
-    lines.append("# Week 2 Missing Value Analysis")
-    lines.append("")
-    lines.append(f"Run date: {date.today().isoformat()}")
-    lines.append("")
-    lines.append("Missing values include nulls and empty/whitespace-only strings.")
-    lines.append("")
+    print(f"Run date: {date.today().isoformat()}")
+    print("Missing values include nulls and empty/whitespace-only strings.")
 
-    write_section(lines, "Listed_Final", listed_summary)
-    write_section(lines, "Sold_Final", sold_summary)
-
-    OUTPUT_MD.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"Wrote {OUTPUT_MD}")
+    print_section("Listed_Final", listed_summary)
+    print_section("Sold_Final", sold_summary)
 
 
 if __name__ == "__main__":
