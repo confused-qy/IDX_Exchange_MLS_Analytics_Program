@@ -57,6 +57,8 @@ class FieldSummary:
     column: str
     count: int
     missing: int
+    mean: float
+    median: float
     percentiles: Dict[float, float]
     outlier_low: float
     outlier_high: float
@@ -90,6 +92,8 @@ def summarize_field(series: pd.Series, field: str, column: str) -> FieldSummary:
             column=column,
             count=0,
             missing=missing,
+            mean=float("nan"),
+            median=float("nan"),
             percentiles={p: float("nan") for p in PERCENTILES},
             outlier_low=float("nan"),
             outlier_high=float("nan"),
@@ -113,6 +117,8 @@ def summarize_field(series: pd.Series, field: str, column: str) -> FieldSummary:
         column=column,
         count=int(clean.shape[0]),
         missing=missing,
+        mean=float(clean.mean()),
+        median=float(clean.median()),
         percentiles={p: float(quantiles.loc[p]) for p in PERCENTILES},
         outlier_low=float(lower),
         outlier_high=float(upper),
@@ -158,6 +164,8 @@ def print_summary(dataset: str, summaries: List[FieldSummary]) -> None:
         print(f"\n{summary.field} ({summary.column})")
         print(f"  non-missing: {summary.count:,}")
         print(f"  missing:     {summary.missing:,}")
+        print(f"  mean:        {summary.mean:.2f}")
+        print(f"  median:      {summary.median:.2f}")
         pct_parts = [
             f"{int(p*100):>2}th: {summary.percentiles[p]:.2f}"
             for p in PERCENTILES
@@ -186,6 +194,8 @@ def write_report(
         lines.append(f"- Source column: `{summary.column}`")
         lines.append(f"- Non-missing: {summary.count:,}")
         lines.append(f"- Missing: {summary.missing:,}")
+        lines.append(f"- Mean: {summary.mean:.2f}")
+        lines.append(f"- Median: {summary.median:.2f}")
         lines.append(
             "- Percentiles: "
             + ", ".join(
