@@ -18,7 +18,7 @@ The internship is structured as a progressive pipeline:
 
 ## Repo Structure
 - `Week1/`: Monthly file aggregation, cleaning, and feature engineering
-- `Week2/`: Missing value analysis and column retention decisions
+- `Week2/`: Missing value analysis, column retention decisions, and numeric distribution EDA
 
 ## Typical Workflow
 1. Place monthly `CRMLSListingYYYYMM.csv` and `CRMLSSoldYYYYMM.csv` files at repo root or `raw/`.
@@ -27,8 +27,13 @@ The internship is structured as a progressive pipeline:
    - `Week1/concat_clean_fe_sold.py`
 3. Run Week 2 missing value analysis:
    - `Week2/missing_value_analysis.py`
+4. Run Week 2 numeric distribution analysis:
+   - `Week2/Numeric_Distribution/numeric_distribution.py`
+   - Review `Week2/Numeric_Distribution/analysis.md`
 
 ## Outputs (Latest)
 - `Listed_Final.csv`
 - `Sold_Final.csv`
 - `Week2/missing_value_analysis.md`
+- `Week2/Numeric_Distribution/numeric_distribution.md`
+- `Week2/Numeric_Distribution/analysis.md`
