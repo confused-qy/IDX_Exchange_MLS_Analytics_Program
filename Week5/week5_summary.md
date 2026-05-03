@@ -123,12 +123,3 @@ These are the main data-quality risks to discuss:
 2. Very large day-difference values in timeline metrics  
 - `listing_to_contract_days` includes extremely large values in some records, suggesting historical date errors or invalid entries.
 
-3. Whether to add an analysis filter layer before summaries  
-Recommended discussion for `segment_summary.py`:
-- Restrict `price_ratio` to a reasonable business range (for example `0.5~1.5`, or apply percentile trimming)
-- Exclude negative and overly large timeline values for:
-  - `listing_to_contract_days`
-  - `contract_to_close_days`
-  (for example `>365` or `>730`)
-
-These rules would not modify raw feature outputs, but they would improve the stability and interpretability of Tableau summary metrics.
