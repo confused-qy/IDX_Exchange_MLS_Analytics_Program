@@ -184,8 +184,3 @@ Custom competitive-analysis dashboard (recommended):
   - Mitigation: add reasonable bounds/filters for `listing_to_contract_days` and `contract_to_close_days`
 - Risk 3: agent-name standardization issues can split the same agent into multiple labels
   - Mitigation: create a cleaned Tableau field like `UPPER(TRIM([list_agent_full_name]))` and use it for ranking
-
-## 8. Minimum Viable Field Set (if you want a lean Tableau model)
-- Dimensions: `close_date`, `listing_contract_date`, `city`, `county_or_parish`, `postal_code`, `property_sub_type`, `list_agent_full_name`, `list_office_name`
-- Measures: `close_price`, `days_on_market`, `close_to_original_list_ratio`, `listing_key`
-- Quality filters: `invalid_days_on_market_flag`, `invalid_close_price_flag`, `date_inconsistency_flag`
